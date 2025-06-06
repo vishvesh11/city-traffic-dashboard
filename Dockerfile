@@ -4,24 +4,23 @@ FROM python:3.9-slim-buster
 # Set the working directory in the container
 WORKDIR /app
 
-# Install system dependencies needed for Dash/Plotly (e.g., for some fonts or libraries)
-# Removed git as it's likely not needed for runtime, keeping build-essential and curl for general utility
+# Install system dependencies needed for Dash/Plotly
 RUN apt-get update && apt-get install -y \
     build-essential \
     curl \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
-# Copy the requirements file into the container at /app
-COPY requirements.txt .
+# Copy the requirements file into the container
+COPY requirements.txt /app/requirements.txt # <-- CHANGED TO EXPLICIT PATH
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy your main Dash application file
-COPY dashboard.py . # Corrected: from app.py to dashboard.py
+COPY dashboard.py /app/dashboard.py # <-- CHANGED TO EXPLICIT PATH
 
 # Copy the assets directory if it exists and contains your custom.css
-COPY assets/ ./assets/
+COPY assets/ /app/assets/ # <-- CHANGED TO EXPLICIT PATH (destination must be a directory)
 
 # Expose the port your Dash app runs on
 EXPOSE 8050
