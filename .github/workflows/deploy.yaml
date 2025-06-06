@@ -1,0 +1,63 @@
+name: Build and Deploy Dash App to K3s
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build and push Docker image to GHCR
+      id: docker_build
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Install Helm
+      uses: azure/setup-helm@v1
+      with:
+        version: '3.8.1'
+
+    - name: Set Kubeconfig
+      run: |
+        mkdir -p ~/.kube
+        echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+        chmod 600 ~/.kube/config
+        # Verify kubectl can connect
+        kubectl cluster-info
+
+    - name: Deploy to Kubernetes with Helm
+      run: |
+        # Extract the image repository part from github.repository
+        # e.g., 'your-github-username/your-repo-name'
+        # image_repo_path=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+        helm upgrade --install future-city-dash ./helm-chart \
+          --set image.tag=${{ github.sha }} \
+          --set image.repository=ghcr.io/${{ github.repository }} \
+          --wait # Wait for the deployment to be ready
+      env:
+        KUBECONFIG: ~/.kube/config
