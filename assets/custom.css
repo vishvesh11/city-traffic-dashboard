@@ -1,0 +1,61 @@
+/* Style for the main dashboard container */
+#dashboard-container.light-theme {
+    background-color: #f8f9fa; /* Light background */
+    color: #212529; /* Dark text */
+    min-height: 100vh; /* Ensure it covers the full viewport height */
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+#dashboard-container.dark-theme {
+    background-color: #343a40; /* Dark background */
+    color: #f8f9fa; /* Light text */
+    min-height: 100vh; /* Ensure it covers the full viewport height */
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Specific styles for Dash Core Components (Dropdowns) in dark theme */
+/* This targets the common classes used by dcc.Dropdown for its various parts */
+
+#dashboard-container.dark-theme .Select-control {
+    background-color: #495057 !important; /* Darker background for control */
+    border-color: #6c757d !important; /* Slightly lighter border */
+    color: #f8f9fa !important; /* Light text color */
+}
+
+#dashboard-container.dark-theme .Select-value-label {
+    color: #f8f9fa !important; /* Color for the selected value text */
+}
+
+#dashboard-container.dark-theme .Select-arrow {
+    border-top-color: #f8f9fa !important; /* Color for the dropdown arrow */
+}
+
+#dashboard-container.dark-theme .Select-menu-outer {
+    background-color: #495057 !important; /* Darker background for dropdown menu */
+    border-color: #6c757d !important;
+}
+
+#dashboard-container.dark-theme .Select-option {
+    background-color: #495057 !important; /* Darker background for options */
+    color: #f8f9fa !important; /* Light text for options */
+}
+
+#dashboard-container.dark-theme .Select-option.is-focused {
+    background-color: #6c757d !important; /* Highlight on hover */
+    color: #f8f9fa !important;
+}
+
+#dashboard-container.dark-theme .Select-option.is-selected {
+    background-color: #6c757d !important; /* Selected option color */
+    color: #f8f9fa !important;
+}
+
+/* Ensure placeholder text is visible in dark mode */
+#dashboard-container.dark-theme .Select-placeholder {
+    color: #bbb !important; /* Lighter gray for placeholder */
+}
+
+/* Custom styling for Bootstrap Switch label text color */
+#dashboard-container.dark-theme .form-check-label {
+    color: #f8f9fa !important; /* Light text for "Dark Mode" label */
+}
