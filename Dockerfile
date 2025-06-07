@@ -11,19 +11,19 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 # Copy the requirements file into the container
-COPY requirements.txt /app/requirements.txt # <-- CHANGED TO EXPLICIT PATH
+COPY requirements.txt /app/requirements.txt
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy your main Dash application file
-COPY dashboard.py /app/dashboard.py # <-- CHANGED TO EXPLICIT PATH
+COPY dashboard.py /app/dashboard.py
 
 # Copy the assets directory if it exists and contains your custom.css
-COPY assets/ /app/assets/ # <-- CHANGED TO EXPLICIT PATH (destination must be a directory)
+COPY assets/ /app/assets/
 
 # Expose the port your Dash app runs on
 EXPOSE 8050
 
 # Run the Dash app when the container launches
-CMD ["python", "dashboard.py"]
+CMD ["gunicorn", "-b", "0.0.0.0:8050", "dashboard:server"]

@@ -35,6 +35,7 @@ jobs:
         push: true
         tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
         no-cache: true
+        platforms: linux/amd64,linux/arm64
 
     - name: Install Helm
       uses: azure/setup-helm@v1
@@ -44,19 +45,19 @@ jobs:
     - name: Set Kubeconfig
       run: |
         mkdir -p ~/.kube
-        echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+        # Decode the base64 secret and write it to the file
+        echo "${{ secrets.KUBECONFIG }}" | base64 -d > ~/.kube/config
         chmod 600 ~/.kube/config
         # Verify kubectl can connect
         kubectl cluster-info
+        kubectl get nodes # Add this to verify node connection
 
     - name: Deploy to Kubernetes with Helm
       run: |
         # Extract the image repository part from github.repository
         # e.g., 'your-github-username/your-repo-name'
         # image_repo_path=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-        helm upgrade --install future-city-dash ./helm-chart \
+        helm upgrade --install future-city-dash ./dash-chart \
           --set image.tag=${{ github.sha }} \
           --set image.repository=ghcr.io/${{ github.repository }} \
           --wait # Wait for the deployment to be ready
-      env:
-        KUBECONFIG: ~/.kube/config

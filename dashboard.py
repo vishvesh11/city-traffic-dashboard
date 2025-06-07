@@ -200,7 +200,6 @@ def update_correlation_matrix(current_theme):
     fig.update_layout(transition_duration=500)
     return fig
 
-# if __name__ == '__main__':
-#     app.run(debug=True, port=8050)
 
 server = app.server
+
