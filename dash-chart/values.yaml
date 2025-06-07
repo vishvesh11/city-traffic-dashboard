@@ -65,13 +65,13 @@ ingress:
     kubernetes.io/ingress.class: traefik # Ensure this matches your Traefik setup
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
   hosts:
-    - host: future_city_traffic_dash.vishvesh.me
+    - host: citytrafficdash.vishvesh.me
       paths:
         - path: /
-          pathType: ImplementationSpecific
+          pathType: Prefix
   tls:
     - hosts:
-        - future_city_traffic_dash.vishvesh.me
+        - citytrafficdash.vishvesh.me
       secretName: future-city-dash-tls
 
 resources:
