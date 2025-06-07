@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
-# Copy the requirements file into the container
+
 COPY requirements.txt /app/requirements.txt
 
 # Install any needed packages specified in requirements.txt
@@ -18,8 +18,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy your main Dash application file
 COPY dashboard.py /app/dashboard.py
+COPY futuristic_city_traffic.csv /app/futuristic_city_traffic.csv
 
-# Copy the assets directory if it exists and contains your custom.css
 COPY assets/ /app/assets/
 
 # Expose the port your Dash app runs on
