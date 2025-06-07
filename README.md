@@ -100,7 +100,7 @@ The `build-deploy.yml` GitHub Actions workflow automates the following steps:
 
 Once deployed and DNS has propagated, you can access the dashboard at:
 
-`https://citytrafficdash.vishvesh.me/` (or your configured hostname)
+`https://citytrafficdash.vishvesh.me/` 
 
 Interact with the dropdowns and the dark mode toggle to explore the traffic data dynamically.
 
