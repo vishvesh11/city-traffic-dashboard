@@ -81,7 +81,7 @@ Before deploying, ensure you have:
 
 The application is deployed using a Helm chart located in the `dash-chart/` directory. Key configurations are managed via `dash-chart/values.yaml`:
 
-  - **Image:** `ghcr.io/vishvesh11/urban_traffic_density`
+  - **Image:** `ghcr.io/vishvesh11/city-traffic-dashboard`
   - **Container Port:** `8050` (where Gunicorn serves the Dash app)
   - **Service Type:** `ClusterIP`
   - **Ingress Host:** `citytrafficdash.vishvesh.me` (configurable in `values.yaml`)
