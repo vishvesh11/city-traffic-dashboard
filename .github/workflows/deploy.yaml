@@ -57,9 +57,6 @@ jobs:
 
     - name: Deploy to Kubernetes with Helm
       run: |
-        # Extract the image repository part from github.repository
-        # e.g., 'your-github-username/your-repo-name'
-        # image_repo_path=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
         helm upgrade --install future-city-dash ./dash-chart \
           --set image.tag=${{ github.sha }} \
           --set image.repository=ghcr.io/${{ github.repository }} \
